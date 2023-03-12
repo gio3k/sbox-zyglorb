@@ -41,7 +41,6 @@ public partial class Enemy : Actor
 
 		// Find the closest pawn
 		var pawn = All.OfType<Player>().MinBy( v => v.Position.WithZ( Position.z ).Distance( Position ) );
-
 		if ( pawn == null )
 			return;
 
