@@ -70,12 +70,12 @@ public static class Keyboard
 
 	private static void UpdateGameInputCache( object sender, ButtonEvent e )
 	{
-		foreach ( var gameInput in from gameInput in GameInputCache
-		         let key = Input.GetButtonOrigin( gameInput.Button )
-		         where string.Compare( key, ConvertInputToGame( e.Button ),
-			         StringComparison.InvariantCultureIgnoreCase ) == 0
-		         select gameInput )
+		foreach ( var gameInput in GameInputCache )
 		{
+			var keyA = Input.GetButtonOrigin( gameInput.Button );
+			var keyB = ConvertInputToGame( e.Button );
+			if ( string.Compare( keyA, keyB, StringComparison.InvariantCultureIgnoreCase ) != 0 )
+				continue;
 			gameInput.Pressed = e.Pressed;
 		}
 	}

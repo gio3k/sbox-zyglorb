@@ -7,7 +7,7 @@ namespace Zyglorb;
 public partial class Enemy : Actor
 {
 	[Net] public string Word { get; set; }
-	[Net] public int Index { get; set; } = 0;
+	[Net] public int Index { get; set; }
 
 	public Enemy()
 	{

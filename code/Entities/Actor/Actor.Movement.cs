@@ -46,10 +46,10 @@ public partial class Actor
 			helper.TryMoveWithStep( Time.Delta, 18.0f ); // Walk up steps if we're grounded
 		else
 			helper.TryMove( Time.Delta );
-				
+
 		// Animate actor
 		AnimateTick();
-		
+
 		// Move to new pos / vel!
 		Position = helper.Position;
 		Velocity = helper.Velocity;
@@ -61,15 +61,11 @@ public partial class Actor
 			GroundEntity = trace.Entity;
 
 			if ( GroundEntity == null )
-			{
 				return;
-			}
 
 			if ( Velocity.z < 0.0f ) Velocity = Velocity.WithZ( 0 );
 		}
 		else
-		{
 			GroundEntity = null;
-		}
 	}
 }
