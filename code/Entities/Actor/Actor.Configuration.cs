@@ -1,6 +1,6 @@
 ﻿namespace Zyglorb;
 
-public partial class Pawn
+public partial class Actor
 {
 	/// <summary> Player body girth </summary>
 	protected virtual float Girth => 32.0f;

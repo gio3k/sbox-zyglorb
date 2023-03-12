@@ -20,14 +20,14 @@ public static class Keyboard
 
 		public override void OnButtonEvent( ButtonEvent e ) => KeyChanged?.Invoke( this, e );
 	}
-	
+
 	#endregion
 
 	public static event EventHandler<ButtonEvent> KeyChanged;
 
 	internal static void Init()
 	{
-		if ( !Game.IsClient ) return;
+		Game.AssertClient();
 
 		Game.RootPanel ??= new RootPanel();
 		Game.RootPanel.AddChild<FocusPanel>();
@@ -60,13 +60,16 @@ public static class Keyboard
 		var result = key.ToLowerInvariant();
 		if ( result is "lshift" or "rshift" )
 			result = "shift";
+		if ( result is "lalt" or "ralt" )
+			result = "alt"; // not sure
+		if ( result is "lcontrol" or "rcontrol" )
+			result = "control"; // not sure
 
 		return result;
 	}
 
 	private static void UpdateGameInputCache( object sender, ButtonEvent e )
 	{
-		Log.Info( e );
 		foreach ( var gameInput in from gameInput in GameInputCache
 		         let key = Input.GetButtonOrigin( gameInput.Button )
 		         where string.Compare( key, ConvertInputToGame( e.Button ),

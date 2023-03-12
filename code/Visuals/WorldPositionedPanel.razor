@@ -1,0 +1,41 @@
+﻿@using Sandbox
+@using Sandbox.UI
+@namespace Zyglorb.Visuals
+@inherits Panel
+
+@code {
+
+	public Vector3 Position { get; set; }
+
+	private static float RootScaleFromScreen => Game.RootPanel.ScaleFromScreen;
+
+	protected virtual void UpdatePanelPosition()
+	{
+		if ( Style.Position != PositionMode.Absolute )
+			Style.Position = PositionMode.Absolute;
+
+		var screenPosition = Position.ToScreen();
+
+		screenPosition.x *= Screen.Width;
+		screenPosition.y *= Screen.Height;
+
+		screenPosition.x -= Box.Rect.Width / 2;
+		screenPosition.y -= Box.Rect.Height / 2;
+
+		screenPosition.x *= RootScaleFromScreen; // screen position -> panel position
+		screenPosition.y *= RootScaleFromScreen;
+
+		Style.Left = Length.Pixels( screenPosition.x ); // set panel position!
+		Style.Top = Length.Pixels( screenPosition.y );
+	}
+
+	public override void Tick()
+	{
+		base.Tick();
+
+		UpdatePanelPosition();
+
+		StateHasChanged();
+	}
+
+}

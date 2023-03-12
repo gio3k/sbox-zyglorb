@@ -2,16 +2,8 @@
 
 namespace Zyglorb;
 
-public partial class Pawn
+public partial class Player
 {
-	/// <summary> Player input - move direction (accounting for camera direction) </summary>
-	[ClientInput]
-	private Vector3 MoveInput { get; set; }
-
-	/// <summary> Player input - look direction / angle </summary>
-	[ClientInput]
-	private Angles LookInput { get; set; }
-
 	public override void BuildInput()
 	{
 		Keyboard.UpdateGameInputs();

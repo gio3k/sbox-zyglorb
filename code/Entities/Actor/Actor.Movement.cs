@@ -3,19 +3,16 @@ using Sandbox;
 
 namespace Zyglorb;
 
-public partial class Pawn
+public partial class Actor
 {
 	/// <summary> Whether or not the pawn is touching the ground </summary>
 	public bool IsGrounded => GroundEntity != null;
 
-	/// <summary>
-	/// Set pawn velocity based on player inputs
-	/// </summary>
-	private void CalculateVelocity()
+	protected virtual void CalculateVelocity()
 	{
 		// Build our direction vector
 		var direction = MoveInput.Normal;
-		direction *= Input.Down( InputButton.Run ) ? 235 : 190;
+		direction *= 190;
 
 		// Start updating our pawn's velocity vector
 		Velocity = direction.WithZ( Velocity.z );
@@ -32,10 +29,7 @@ public partial class Pawn
 		}
 	}
 
-	/// <summary>
-	/// Simulate is called every tick, both serverside and clientside - we want to use it for movement (and animations)
-	/// </summary>
-	protected virtual void MovementSimulate( IClient cl )
+	protected virtual void MovementTick()
 	{
 		CalculateVelocity();
 
@@ -52,7 +46,10 @@ public partial class Pawn
 			helper.TryMoveWithStep( Time.Delta, 18.0f ); // Walk up steps if we're grounded
 		else
 			helper.TryMove( Time.Delta );
-
+				
+		// Animate actor
+		AnimateTick();
+		
 		// Move to new pos / vel!
 		Position = helper.Position;
 		Velocity = helper.Velocity;
