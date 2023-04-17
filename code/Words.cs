@@ -39,7 +39,7 @@ public static class Words
 	}
 
 	private static WordList _wordList;
-	private static readonly Queue<string> _wordCache = new();
+	private static readonly Queue<string> WordCache = new();
 	private const int RequeueAmount = 30;
 
 	internal static void Init()
@@ -56,17 +56,17 @@ public static class Words
 		for ( var i = 0; i < amount; i++ )
 		{
 			var num = Random.Shared.Next( 0, count - 1 );
-			_wordCache.Enqueue( _wordList.Usable[num] );
+			WordCache.Enqueue( _wordList.Usable[num] );
 		}
 	}
 
 	public static string Take()
 	{
-		if ( _wordCache.TryDequeue( out var result ) )
+		if ( WordCache.TryDequeue( out var result ) )
 			return result;
 		Log.Info( $"Word cache out of words! Adding {RequeueAmount} more" );
 		Cache( RequeueAmount );
-		if ( _wordCache.TryDequeue( out result ) )
+		if ( WordCache.TryDequeue( out result ) )
 			return result;
 		throw new Exception( "Word queue failure" );
 	}
